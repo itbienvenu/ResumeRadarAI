@@ -1,0 +1,2 @@
+ResumeRadarAi is a Python-based AI API that analyzes resumes and job descriptions to compute a match score, extract key skills, and provide actionable recommendations. 
+It helps candidates understand how well their resume fits a job and highlights skills they can improve. Built with modular classes for parsing, skill extraction, and matching, this project is ideal for recruiters, job seekers, and AI portfolio demonstrations.
