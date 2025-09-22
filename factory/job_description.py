@@ -26,3 +26,24 @@ class JobDescription:
             self.skills_with_weights = [{"name": s, "weight": 1} for s in self.skills]
 
         return self.skills
+
+    def extract_education_ai(self):
+        """Extract education requirements using Gemini AI."""
+        prompt = f"""
+        Extract required education details (degree, field of study) 
+        from this job description. Return as JSON:
+        [
+        {{"degree": "BSc", "field": "Computer Science"}}
+        ]
+        Job Description:
+        {self.text}
+        """
+        education_json = call_gemini(prompt)
+        try:
+            import json
+            self.required_education = json.loads(education_json)
+        except:
+            self.required_education = []
+        return self.required_education
+
+

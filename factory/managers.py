@@ -45,7 +45,6 @@ def normalize_skill(skill: str) -> str:
 
 
 # Some skills synonyms
-
 def expand_with_synonyms(skill):
     synonyms = get_synonyms(skill)
     return set([skill.lower()]) | synonyms

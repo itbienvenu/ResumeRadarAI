@@ -6,6 +6,7 @@ class Resume:
         self.file_path = get_real_dir(file_path)
         self.text = self._extract_text()
         self.skills = []
+        self.education_required = []
 
     def _extract_text(self):
         text = ""
@@ -29,3 +30,18 @@ class Resume:
         # Normalizing skills for better matching
         self.skills = [normalize_skill(skill) for skill in self.skills]
         return self.skills
+    
+    def extract_education_ai(self):
+        """Extract education requirements using Gemini, fallback to manual"""
+        prompt = f"""
+        From the following job description, extract only education requirements
+        (e.g., Bachelor's, Master's, PhD, Diploma). 
+        Return them as a comma-separated list:
+
+        {self.text}
+        """
+        response = call_gemini(prompt)
+        extracted = [e.strip() for e in response.split(",") if e.strip()]
+        # Combine AI extraction + manual fallback
+        self.education_required = list(set(extracted + self.education_required))
+        return self.education_required

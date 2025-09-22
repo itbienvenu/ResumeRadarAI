@@ -39,3 +39,22 @@ class MatchFactory:
             "matched_skills": matched,
             "score": round(percentage, 2)
         }
+    
+class EducationMatcher:
+    def __init__(self, resume_education, job_education_required):
+        self.resume_education = resume_education
+        self.job_education_required = job_education_required
+
+    def match(self):
+        matched = []
+        for req in self.job_education_required:
+            for edu in self.resume_education:
+                # Simple case-insensitive check
+                if req.lower() in edu.get("degree", "").lower():
+                    matched.append(req)
+        return {
+            "matched_education": matched,
+            "education_match": len(matched) > 0
+        }
+
+    
