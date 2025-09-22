@@ -1,5 +1,5 @@
 import pdfplumber
-from .managers import get_real_dir, call_gemini
+from .managers import get_real_dir, call_gemini, normalize_skill
 
 class Resume:
     def __init__(self, file_path):
@@ -26,4 +26,6 @@ class Resume:
         """
         skills_text = call_gemini(prompt)
         self.skills = [s.strip() for s in skills_text.split(",") if s.strip()]
+        # Normalizing skills for better matching
+        self.skills = [normalize_skill(skill) for skill in self.skills]
         return self.skills
