@@ -32,7 +32,17 @@ class JobDescription:
         {self.text}
         """
         edu_text = call_gemini(prompt)
-        self.education_required = list(set([e.strip() for e in edu_text.split(",") if e.strip()] + self.education_required))
+        # Combine and deduplicate, then wrap as dicts with 'degree' key
+        degrees = set([e.strip() for e in edu_text.split(",") if e.strip()])
+        # Also include any existing degrees, normalizing to string if dict
+        for e in self.education_required:
+            if isinstance(e, dict):
+                degrees.add(e.get('degree', '').strip())
+            elif isinstance(e, str):
+                degrees.add(e.strip())
+        # Remove empty strings
+        degrees = [d for d in degrees if d]
+        self.education_required = [{"degree": d} for d in degrees]
         return self.education_required
 
     def extract_experience_ai(self):
